@@ -1,0 +1,1710 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Fraud Detection Data: EDA &#8212; Parcial Machine Learning 2023-30</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fraud_detection_data_EDA';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Wind Speed Data: Regression Models" href="wind_speed_data_regression.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Parcial Machine Learning 2023-30
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="wind_speed_data_EDA.html">Wind Speed Data: EDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wind_speed_data_regression.html">Wind Speed Data: Regression Models</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Fraud Detection Data: EDA</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ffraud_detection_data_EDA.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/fraud_detection_data_EDA.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Fraud Detection Data: EDA</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conteo-de-datos-faltantes">conteo de datos faltantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuantas-columnas-categoricas-quedan">cuantas columnas categóricas quedan?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-categoricas-vs-isfraud">Variables categóricas vs ‘isFraud’</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-m6">isFraud vs M6</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-p-emaildomain">isFraud vs P_emaildomain</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-productcd">isFraud vs ProductCD</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-card4">isFraud vs card4</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-card6">isFraud vs card6</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuantas-columnas-numericas-quedan">cuantas columnas numéricas quedan?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-numericas-vs-isfraud">Variables numéricas vs isFraud</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminando-multicolinealidad-con-variance-inflation-factor-vif">Eliminando multicolinealidad con Variance Inflation Factor (VIF)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="fraud-detection-data-eda">
+<h1>Fraud Detection Data: EDA<a class="headerlink" href="#fraud-detection-data-eda" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">identity</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;train_identity.csv&#39;</span><span class="p">)</span>
+<span class="n">transaction</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;train_transaction.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fraud_detection_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">transaction</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;TransactionID&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TransactionID</th>
+      <th>isFraud</th>
+      <th>TransactionDT</th>
+      <th>TransactionAmt</th>
+      <th>ProductCD</th>
+      <th>card1</th>
+      <th>card2</th>
+      <th>card3</th>
+      <th>card4</th>
+      <th>card5</th>
+      <th>...</th>
+      <th>id_31</th>
+      <th>id_32</th>
+      <th>id_33</th>
+      <th>id_34</th>
+      <th>id_35</th>
+      <th>id_36</th>
+      <th>id_37</th>
+      <th>id_38</th>
+      <th>DeviceType</th>
+      <th>DeviceInfo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2987000</td>
+      <td>0</td>
+      <td>86400</td>
+      <td>68.5</td>
+      <td>W</td>
+      <td>13926</td>
+      <td>NaN</td>
+      <td>150.0</td>
+      <td>discover</td>
+      <td>142.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2987001</td>
+      <td>0</td>
+      <td>86401</td>
+      <td>29.0</td>
+      <td>W</td>
+      <td>2755</td>
+      <td>404.0</td>
+      <td>150.0</td>
+      <td>mastercard</td>
+      <td>102.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2987002</td>
+      <td>0</td>
+      <td>86469</td>
+      <td>59.0</td>
+      <td>W</td>
+      <td>4663</td>
+      <td>490.0</td>
+      <td>150.0</td>
+      <td>visa</td>
+      <td>166.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2987003</td>
+      <td>0</td>
+      <td>86499</td>
+      <td>50.0</td>
+      <td>W</td>
+      <td>18132</td>
+      <td>567.0</td>
+      <td>150.0</td>
+      <td>mastercard</td>
+      <td>117.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2987004</td>
+      <td>0</td>
+      <td>86506</td>
+      <td>50.0</td>
+      <td>H</td>
+      <td>4497</td>
+      <td>514.0</td>
+      <td>150.0</td>
+      <td>mastercard</td>
+      <td>102.0</td>
+      <td>...</td>
+      <td>samsung browser 6.2</td>
+      <td>32.0</td>
+      <td>2220x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>T</td>
+      <td>mobile</td>
+      <td>SAMSUNG SM-G892A Build/NRD90M</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 434 columns</p>
+</div></div></div>
+</div>
+<p>El dataset mostrado describe transacciones reales de comercio electrónico de Vesta y contienen una amplia gama
+de características, desde el tipo de dispositivo hasta las características del producto. El objetivo principal es
+mejorar la eficacia de las alertas de transacciones fraudulentas para millones de personas en todo el mundo,
+ayudando a cientos de miles de empresas a reducir sus pérdidas por fraude y aumentar sus ingresos. Y, por
+supuesto, ahorrará a muchas personas la molestia de los falsos positivos.</p>
+<section id="conteo-de-datos-faltantes">
+<h2>conteo de datos faltantes<a class="headerlink" href="#conteo-de-datos-faltantes" title="Permalink to this heading">#</a></h2>
+<p>dado que hay muchas columnas, se crea entonces una función la cual recibe un dataframe y devuelve la cantidad de nulos y el conteo de filas por columna</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">df_missing_summary</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="c1"># Calculate the percentage of null values for each column</span>
+    <span class="n">null_percentage</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="c1"># Calculate the total number of rows for each column</span>
+    <span class="n">total_rows</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+    <span class="c1"># Create a new DataFrame with the desired structure</span>
+    <span class="n">new_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s1">&#39;Column&#39;</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;Value&#39;</span><span class="p">:</span> <span class="n">null_percentage</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">total_rows</span>
+    <span class="p">})</span>
+
+    <span class="c1"># Add a new index column to differentiate between percentage and total rows</span>
+    <span class="n">new_df</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Percentage Null&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Total Rows&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+    <span class="c1"># Pivot the DataFrame to get the desired format</span>
+    <span class="n">new_df</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Column&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;Value&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_df</span>
+ 
+<span class="n">missing_per_column</span> <span class="o">=</span> <span class="n">df_missing_summary</span><span class="p">(</span><span class="n">fraud_detection_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">missing_per_column</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Column</th>
+      <th>C1</th>
+      <th>C10</th>
+      <th>C11</th>
+      <th>C12</th>
+      <th>C13</th>
+      <th>C14</th>
+      <th>C2</th>
+      <th>C3</th>
+      <th>C4</th>
+      <th>C5</th>
+      <th>...</th>
+      <th>id_30</th>
+      <th>id_31</th>
+      <th>id_32</th>
+      <th>id_33</th>
+      <th>id_34</th>
+      <th>id_35</th>
+      <th>id_36</th>
+      <th>id_37</th>
+      <th>id_38</th>
+      <th>isFraud</th>
+    </tr>
+    <tr>
+      <th>Type</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Percentage Null</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>86.865411</td>
+      <td>76.245132</td>
+      <td>86.861855</td>
+      <td>87.589494</td>
+      <td>86.824771</td>
+      <td>76.126088</td>
+      <td>76.126088</td>
+      <td>76.126088</td>
+      <td>76.126088</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>Total Rows</th>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>590540.0</td>
+      <td>...</td>
+      <td>590540.000000</td>
+      <td>590540.000000</td>
+      <td>590540.000000</td>
+      <td>590540.000000</td>
+      <td>590540.000000</td>
+      <td>590540.000000</td>
+      <td>590540.000000</td>
+      <td>590540.000000</td>
+      <td>590540.000000</td>
+      <td>590540.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>2 rows × 434 columns</p>
+</div></div></div>
+</div>
+<p>la columna id_33 por ejemplo, tiene 87.58% de datos faltantes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">missing_per_column</span><span class="p">[[</span><span class="s1">&#39;id_33&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Column</th>
+      <th>id_33</th>
+    </tr>
+    <tr>
+      <th>Type</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Percentage Null</th>
+      <td>87.589494</td>
+    </tr>
+    <tr>
+      <th>Total Rows</th>
+      <td>590540.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Una vez se tienen el porcentaje de datos faltantes por columna, se empieza a probar distintos umbrales, los umbrales son empleados para eliminar las columnas que estén por debajo de ese valor en porcentaje de datos faltantes.</p>
+<p>Luego en cada paso, se comprueba cuantas columnas quedan en el dataset por cada umbral. Hasta llegar a un número de columnas razonable.</p>
+<p>Originalmente, el número de columnas es:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">missing_per_column</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>434
+</pre></div>
+</div>
+</div>
+</div>
+<p>si se dejan solamente aquellas columnas con almenos el 70% de los datos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">missing_per_column</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Type</th>
+      <th>Percentage Null</th>
+      <th>Total Rows</th>
+    </tr>
+    <tr>
+      <th>Column</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>C1</th>
+      <td>0.000000</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>C10</th>
+      <td>0.000000</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>C11</th>
+      <td>0.000000</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>C12</th>
+      <td>0.000000</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>C13</th>
+      <td>0.000000</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>id_35</th>
+      <td>76.126088</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>id_36</th>
+      <td>76.126088</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>id_37</th>
+      <td>76.126088</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>id_38</th>
+      <td>76.126088</td>
+      <td>590540.0</td>
+    </tr>
+    <tr>
+      <th>isFraud</th>
+      <td>0.000000</td>
+      <td>590540.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>434 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">missing_per_column</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">missing_per_column</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="s1">&#39;Percentage Null&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>202
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se reduce entonces de 434 a 202 eliminando columnas que tienen almenos el 70% de los datos totales</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns_left</span> <span class="o">=</span> <span class="n">missing_per_column</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">missing_per_column</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="s1">&#39;Percentage Null&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+
+<span class="n">fraud_detection_df</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="p">[</span><span class="n">columns_left</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C1            0
+C10           0
+C11           0
+C12           0
+C13           0
+           ... 
+card3      1565
+card4      1577
+card5      4259
+card6      1571
+isFraud       0
+Length: 202, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<section id="cuantas-columnas-categoricas-quedan">
+<h3>cuantas columnas categóricas quedan?<a class="headerlink" href="#cuantas-columnas-categoricas-quedan" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">categorical_columns</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">num_categorical_columns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">categorical_columns</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of categorical columns: </span><span class="si">{</span><span class="n">num_categorical_columns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of categorical columns: 5
+</pre></div>
+</div>
+</div>
+</div>
+<p>cuales son esas columnas?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">categorical_columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;M6&#39;, &#39;P_emaildomain&#39;, &#39;ProductCD&#39;, &#39;card4&#39;, &#39;card6&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fraud_detection_df</span><span class="p">[[</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="s1">&#39;M6&#39;</span><span class="p">,</span> <span class="s1">&#39;P_emaildomain&#39;</span><span class="p">,</span> <span class="s1">&#39;ProductCD&#39;</span><span class="p">,</span> <span class="s1">&#39;card4&#39;</span><span class="p">,</span> <span class="s1">&#39;card6&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>isFraud</th>
+      <th>M6</th>
+      <th>P_emaildomain</th>
+      <th>ProductCD</th>
+      <th>card4</th>
+      <th>card6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>T</td>
+      <td>NaN</td>
+      <td>W</td>
+      <td>discover</td>
+      <td>credit</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>T</td>
+      <td>gmail.com</td>
+      <td>W</td>
+      <td>mastercard</td>
+      <td>credit</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>F</td>
+      <td>outlook.com</td>
+      <td>W</td>
+      <td>visa</td>
+      <td>debit</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>F</td>
+      <td>yahoo.com</td>
+      <td>W</td>
+      <td>mastercard</td>
+      <td>debit</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>NaN</td>
+      <td>gmail.com</td>
+      <td>H</td>
+      <td>mastercard</td>
+      <td>credit</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="variables-categoricas-vs-isfraud">
+<h3>Variables categóricas vs ‘isFraud’<a class="headerlink" href="#variables-categoricas-vs-isfraud" title="Permalink to this heading">#</a></h3>
+<section id="isfraud-vs-m6">
+<h4>isFraud vs M6<a class="headerlink" href="#isfraud-vs-m6" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Group the data by &#39;isFraud&#39; and &#39;M6&#39; and count the occurrences</span>
+<span class="n">fraud_m6_counts</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="s1">&#39;M6&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Calculate the total counts per category (in this case, &#39;isFraud&#39;)</span>
+<span class="n">total_counts</span> <span class="o">=</span> <span class="n">fraud_m6_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Calculate the percentage of each &#39;M6&#39; category for each &#39;isFraud&#39; category</span>
+<span class="n">percentage_m6</span> <span class="o">=</span> <span class="n">fraud_m6_counts</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">total_counts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Plot the data using a stacked bar plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">percentage_m6</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;isFraud&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Percentage (%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Percentage of M6 categories for each isFraud category&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;M6&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Add percentage labels with counts in parenthesis next to the percentage in the bars</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_xy</span><span class="p">()</span>
+    <span class="n">percentage</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">fraud_m6_counts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>  <span class="c1"># Adjust indexing</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9b2fd95e5265611506d6259cb5b7842b440a08e3359b292d519fc2e180b1434c.png" src="_images/9b2fd95e5265611506d6259cb5b7842b440a08e3359b292d519fc2e180b1434c.png" />
+</div>
+</div>
+<p>aparentemente, la variable M6 indica que los valores no coinciden en las transacciones fraudulentas con mayor frecuencia que en las no fraudulentas</p>
+</section>
+<section id="isfraud-vs-p-emaildomain">
+<h4>isFraud vs P_emaildomain<a class="headerlink" href="#isfraud-vs-p-emaildomain" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the five most frequent categories in &#39;P_emaildomain&#39;</span>
+<span class="n">top_email_domains</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="p">[</span><span class="s1">&#39;P_emaildomain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">index</span>
+
+<span class="c1"># Create a new column &#39;P_emaildomain_top&#39; that includes only the top categories and groups the rest as &#39;others&#39;</span>
+<span class="n">fraud_detection_df</span><span class="p">[</span><span class="s1">&#39;P_emaildomain_top&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="p">[</span><span class="s1">&#39;P_emaildomain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">fraud_detection_df</span><span class="p">[</span><span class="s1">&#39;P_emaildomain&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">top_email_domains</span><span class="p">),</span> <span class="s1">&#39;others&#39;</span><span class="p">)</span>
+
+<span class="c1"># Group the data by &#39;isFraud&#39; and &#39;P_emaildomain_top&#39; and count the occurrences</span>
+<span class="n">email_domain_counts</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="s1">&#39;P_emaildomain_top&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Calculate the total counts per &#39;isFraud&#39; category</span>
+<span class="n">total_counts</span> <span class="o">=</span> <span class="n">email_domain_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Calculate the percentage of each &#39;P_emaildomain_top&#39; for each &#39;isFraud&#39; category</span>
+<span class="n">percentage_email_domains</span> <span class="o">=</span> <span class="n">email_domain_counts</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">total_counts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Plot the data using a stacked bar plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">percentage_email_domains</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;isFraud&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Percentage (%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Percentage of Top P_emaildomain Categories for each isFraud category&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;P_emaildomain_top&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Add percentage labels with counts in parenthesis next to the percentage in the bars</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_xy</span><span class="p">()</span>
+    <span class="n">percentage</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">email_domain_counts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>  <span class="c1"># Adjust indexing</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="c1"># Remove the temporary &#39;P_emaildomain_top&#39; column</span>
+<span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;P_emaildomain_top&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b4ebf7edd921a5e8a107424f98eabfaac257d75fab500cda257d5531cfb83713.png" src="_images/b4ebf7edd921a5e8a107424f98eabfaac257d75fab500cda257d5531cfb83713.png" />
+</div>
+</div>
+<p>Se presentan ligeras variaciones en los dominios utilizados por tipos de transacción</p>
+</section>
+<section id="isfraud-vs-productcd">
+<h4>isFraud vs ProductCD<a class="headerlink" href="#isfraud-vs-productcd" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Group the data by &#39;isFraud&#39; and &#39;ProductCD&#39; and count the occurrences</span>
+<span class="n">product_counts</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="s1">&#39;ProductCD&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Calculate the total counts per category</span>
+<span class="n">total_counts</span> <span class="o">=</span> <span class="n">product_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Calculate the percentage of each product for each fraud status</span>
+<span class="n">percentage_products</span> <span class="o">=</span> <span class="n">product_counts</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">total_counts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Plot the data using a stacked bar plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">percentage_products</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;isFraud&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Percentage (%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Percentage of Products for each Fraud Status&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;ProductCD&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Add percentage labels with counts in parenthesis next to the percentage in the bars</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_xy</span><span class="p">()</span>
+    <span class="n">percentage</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">product_counts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>  <span class="c1"># Adjust indexing</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c135d259b26e80354c2f4381ebb6c46a275eba45cf82cf2c94e73dcb4cb3cb4c.png" src="_images/c135d259b26e80354c2f4381ebb6c46a275eba45cf82cf2c94e73dcb4cb3cb4c.png" />
+</div>
+</div>
+<p>con lo cuál se evidencia que el código de producto W es menos probable que genere una transacción Fraudulenta, siendo todo lo contrario con el códifo de producto C. Siendo esta una buena variable para modelar</p>
+</section>
+<section id="isfraud-vs-card4">
+<h4>isFraud vs card4<a class="headerlink" href="#isfraud-vs-card4" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Group the data by &#39;isFraud&#39; and &#39;card4&#39; and count the occurrences</span>
+<span class="n">card_counts</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="s1">&#39;card4&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Calculate the total counts per category</span>
+<span class="n">total_counts</span> <span class="o">=</span> <span class="n">card_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Calculate the percentage of each card type for each fraud status</span>
+<span class="n">percentage_cards</span> <span class="o">=</span> <span class="n">card_counts</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">total_counts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Plot the data using a stacked bar plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">percentage_cards</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;isFraud&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Percentage (%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Percentage of Card Types for each Fraud Status&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Card Type&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Add percentage labels with counts in parenthesis next to the percentage in the bars</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_xy</span><span class="p">()</span>
+    <span class="n">percentage</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">card_counts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>  <span class="c1"># Adjust indexing</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8d5c43c76f16c0840a3b1070fa58200f6cdb60b8a6f5ad9f2f567c708b1e0b45.png" src="_images/8d5c43c76f16c0840a3b1070fa58200f6cdb60b8a6f5ad9f2f567c708b1e0b45.png" />
+</div>
+</div>
+<p>la diferencia de proporciones de el tipo de tarjeta para cada categoría de fraude parece ser despreciable, por lo cual, a priori, esta variable no sería usada para modelar</p>
+</section>
+<section id="isfraud-vs-card6">
+<h4>isFraud vs card6<a class="headerlink" href="#isfraud-vs-card6" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Group the data by &#39;isFraud&#39; and &#39;card6&#39; and count the occurrences</span>
+<span class="n">card_counts</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="s1">&#39;card6&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Calculate the total counts per category</span>
+<span class="n">total_counts</span> <span class="o">=</span> <span class="n">card_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Calculate the percentage of each card type for each fraud status</span>
+<span class="n">percentage_cards</span> <span class="o">=</span> <span class="n">card_counts</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">total_counts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Plot the data using a stacked bar plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">percentage_cards</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;isFraud&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Percentage (%)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Percentage of Card Types for each Fraud Status&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Card Type&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Add percentage labels with counts in parenthesis next to the percentage in the bars</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_xy</span><span class="p">()</span>
+    <span class="n">percentage</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">card_counts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>  <span class="c1"># Adjust indexing</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">percentage</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">% (</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5d9ded473deba91f2ae0bf8d0f34177fa2eac7df0a76ba282f81df4f7cc37f82.png" src="_images/5d9ded473deba91f2ae0bf8d0f34177fa2eac7df0a76ba282f81df4f7cc37f82.png" />
+</div>
+</div>
+<p>aqui se evidencia que para las transacciones fraudulentas, se prefieren mucho las tarjetas de crédito, por lo cuál esa variable puede ser muy buena para modelar</p>
+</section>
+</section>
+<section id="cuantas-columnas-numericas-quedan">
+<h3>cuantas columnas numéricas quedan?<a class="headerlink" href="#cuantas-columnas-numericas-quedan" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select columns of type int64 or float64, dropping the target variable</span>
+<span class="n">numeric_columns</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span> <span class="s1">&#39;float64&#39;</span><span class="p">])</span>
+
+<span class="c1"># Count the number of selected columns</span>
+<span class="n">num_numeric_columns</span> <span class="o">=</span> <span class="n">numeric_columns</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of numeric columns: </span><span class="si">{</span><span class="n">num_numeric_columns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of numeric columns: 196
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="variables-numericas-vs-isfraud">
+<h3>Variables numéricas vs isFraud<a class="headerlink" href="#variables-numericas-vs-isfraud" title="Permalink to this heading">#</a></h3>
+<p>dado que hay tantas variables numéricas, entonces se hace el siguiente proceso:</p>
+<ul class="simple">
+<li><p>Se realiza un ANOVA test entre la variable ‘isFraud’ y todas las demás variables numéricas</p></li>
+<li><p>Se toman aquellas 10 variables cuyo p-valor es menor (porque son aquellas donde la diferencia es estadísticamente significativa y es mayor)</p></li>
+<li><p>Se visualizan en boxplots esas variables vs ‘isFraud’</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">f_oneway</span>
+
+<span class="c1"># Step 1: Filter numerical columns</span>
+<span class="n">numerical_cols</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span> <span class="s1">&#39;float64&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="c1"># Step 2: Perform ANOVA test and calculate p-values</span>
+<span class="n">p_values</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">numerical_cols</span><span class="p">:</span>
+    <span class="c1"># Perform ANOVA test</span>
+    <span class="n">p_value</span> <span class="o">=</span> <span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">fraud_detection_df</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="n">fraud_detection_df</span><span class="p">[</span><span class="s1">&#39;isFraud&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">category</span><span class="p">]</span> <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">p_values</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_value</span>
+
+<span class="c1"># Step 3: Get 10 columns with the lowest p-values</span>
+<span class="n">top_10_cols</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">p_values</span><span class="o">.</span><span class="n">get</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+
+<span class="c1"># Step 4: Create a new dataframe with selected columns</span>
+<span class="n">selected_df</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="p">[[</span><span class="s1">&#39;isFraud&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">top_10_cols</span><span class="p">]</span>
+
+<span class="n">selected_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>isFraud</th>
+      <th>C2</th>
+      <th>C8</th>
+      <th>C12</th>
+      <th>C9</th>
+      <th>C5</th>
+      <th>C1</th>
+      <th>C4</th>
+      <th>C10</th>
+      <th>C7</th>
+      <th>C11</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>590535</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>590536</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>590537</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>590538</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>590539</th>
+      <td>0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>590540 rows × 11 columns</p>
+</div></div></div>
+</div>
+<p>Entonces, se evidencia que esas 10 variables cuya diferencia es estadísticamente significativa (y más significativa que todas las otras) para cada categoría de isFraud, corresponden a las variables C.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assuming &#39;isFraud&#39; is a binary variable (0 or 1)</span>
+<span class="c1"># You may need to adjust the size of the plot based on the number of variables</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Loop through each column in the DataFrame (excluding &#39;isFraud&#39;)</span>
+<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">selected_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="s1">&#39;isFraud&#39;</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">column</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">selected_df</span><span class="p">,</span> <span class="n">showfliers</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Boxplot of isFraud vs </span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 1500x1000 with 0 Axes&gt;
+</pre></div>
+</div>
+<img alt="_images/25af403e91e639932416e0720f09f3b023297e7036c3903672c2bb254c9cd736.png" src="_images/25af403e91e639932416e0720f09f3b023297e7036c3903672c2bb254c9cd736.png" />
+<img alt="_images/1c4214d7b33176f8b8c8bc20f310285e8faa5625ec6c63191a547dcac6c6ac05.png" src="_images/1c4214d7b33176f8b8c8bc20f310285e8faa5625ec6c63191a547dcac6c6ac05.png" />
+<img alt="_images/a29c16815fb82db7e631e91700f1040f06ef17289989ad4e42525a36b60049ed.png" src="_images/a29c16815fb82db7e631e91700f1040f06ef17289989ad4e42525a36b60049ed.png" />
+<img alt="_images/106e9e6ab7f36c5bf9ce4e45a6a6df8b57a936ee032c2af42cba3e68e32645f3.png" src="_images/106e9e6ab7f36c5bf9ce4e45a6a6df8b57a936ee032c2af42cba3e68e32645f3.png" />
+<img alt="_images/4c9e675ecd6383c467914fdf3ddd31bde895e63f94a2b2e16b0ac56a52f2b3a5.png" src="_images/4c9e675ecd6383c467914fdf3ddd31bde895e63f94a2b2e16b0ac56a52f2b3a5.png" />
+<img alt="_images/7c83151863c3d0ac270d4d8829c64302af3033947d3c4490df909bf3e58316af.png" src="_images/7c83151863c3d0ac270d4d8829c64302af3033947d3c4490df909bf3e58316af.png" />
+<img alt="_images/ccc2ec350c5f85723ac109513f26b5384a01677fe6becec777809d3a6b5a5e51.png" src="_images/ccc2ec350c5f85723ac109513f26b5384a01677fe6becec777809d3a6b5a5e51.png" />
+<img alt="_images/66a7fbccb7fcd31db5b70a4addd69388648e7dad812ab74b8497a21fabd53650.png" src="_images/66a7fbccb7fcd31db5b70a4addd69388648e7dad812ab74b8497a21fabd53650.png" />
+<img alt="_images/cfdfe2b5ada3e27135dacc8463a43fc52656d474704a9f5303b1941bf71028eb.png" src="_images/cfdfe2b5ada3e27135dacc8463a43fc52656d474704a9f5303b1941bf71028eb.png" />
+<img alt="_images/207ef8bd26610cb5ce82008771aeadf16716609dbc1f5d67abc95967287f4937.png" src="_images/207ef8bd26610cb5ce82008771aeadf16716609dbc1f5d67abc95967287f4937.png" />
+</div>
+</div>
+<p>para algunas columnas, como C5, C7 y C8 se evidencia que todos los valores corresponden a cero en una categoría u otra.</p>
+<p>La descripción de estas columnas es: C1-C14 : Recuento, cuántas direcciones se encuentran asociadas a la tarjeta de pago, etc. El significado
+real está codificado.</p>
+<p>C1-C14 : Recuento, cuántas direcciones se encuentran asociadas a la tarjeta de pago, etc. El significado real está codificado. por lo cuál no se presta para mayor interpretabilidad</p>
+</section>
+</section>
+<section id="eliminando-multicolinealidad-con-variance-inflation-factor-vif">
+<h2>Eliminando multicolinealidad con Variance Inflation Factor (VIF)<a class="headerlink" href="#eliminando-multicolinealidad-con-variance-inflation-factor-vif" title="Permalink to this heading">#</a></h2>
+<p>Se realiza reducción de dimensionalidad por medio de eliminación de columnas altamente correlacionadas usando Variance Inflation Factor (VIF). Para esto se emplea la librería variance_inflation_factor().</p>
+<p>Recordemos que:</p>
+<ul class="simple">
+<li><p>Un VIF ≥ 5 indica alta multicolinealidad entre la correspondiente variable independiente y las demás variables.</p></li>
+<li><p>Recomendación: Eliminar una columna a la vez. Aquella con el máximo VIF ≥ 5. Luego, para el nuevo dataframe, calcular nuevamente VIF e identificar nuevas columnas con VIF ≥ 5 máximo, y así sucesivamente hasta obtener solo valores de VIF &lt; 5.</p></li>
+<li><p>Según corresponda, variables categóricas deben previamente codificarse usando por ejemplo OneHotEncoder().</p></li>
+</ul>
+<p>el proceso codificado a continuación calcula el VIF para las variables y elimina aquella con mayor VIF hasta que todas queden con un valor de 5 o menos, tal como fué descrito este proceso devolverá las columnas numéricas aptas para empezar a entrenar el modelo, sin embargo, por temas de costo computacional, no logró ejecutarse por completo y no se pudo verificar la salida del mismo. Con un tiempo de ejecución superior (en este caso se esperó 6 horas) quizá logre completarse y mostrar las columnas correspondientes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.outliers_influence</span> <span class="kn">import</span> <span class="n">variance_inflation_factor</span>
+
+<span class="c1"># Identify numerical columns excluding &#39;isFraud&#39; and object columns</span>
+<span class="n">numerical_columns</span> <span class="o">=</span> <span class="n">fraud_detection_df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">numerical_columns</span> <span class="o">=</span> <span class="n">numerical_columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;isFraud&#39;</span><span class="p">)</span>
+
+<span class="c1"># Iteratively calculate and eliminate variables with VIF &gt; 5</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numerical_columns</span>
+    <span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">fraud_detection_df</span><span class="p">[</span><span class="n">numerical_columns</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numerical_columns</span><span class="p">))]</span>
+
+    <span class="c1"># Check if any variable has VIF greater than 5</span>
+    <span class="n">max_vif</span> <span class="o">=</span> <span class="n">vif_data</span><span class="p">[</span><span class="s1">&#39;VIF&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">max_vif</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="c1"># Remove variable with highest VIF</span>
+        <span class="n">remove_variable</span> <span class="o">=</span> <span class="n">vif_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">vif_data</span><span class="p">[</span><span class="s1">&#39;VIF&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span> <span class="s1">&#39;Variable&#39;</span><span class="p">]</span>
+        <span class="n">numerical_columns</span> <span class="o">=</span> <span class="n">numerical_columns</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">remove_variable</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Removed variable &#39;</span><span class="si">{</span><span class="n">remove_variable</span><span class="si">}</span><span class="s2">&#39; with VIF </span><span class="si">{</span><span class="n">max_vif</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">break</span>
+
+<span class="c1"># Display the final result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final Variables:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">numerical_columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="wind_speed_data_regression.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Wind Speed Data: Regression Models</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conteo-de-datos-faltantes">conteo de datos faltantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuantas-columnas-categoricas-quedan">cuantas columnas categóricas quedan?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-categoricas-vs-isfraud">Variables categóricas vs ‘isFraud’</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-m6">isFraud vs M6</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-p-emaildomain">isFraud vs P_emaildomain</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-productcd">isFraud vs ProductCD</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-card4">isFraud vs card4</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isfraud-vs-card6">isFraud vs card6</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuantas-columnas-numericas-quedan">cuantas columnas numéricas quedan?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-numericas-vs-isfraud">Variables numéricas vs isFraud</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminando-multicolinealidad-con-variance-inflation-factor-vif">Eliminando multicolinealidad con Variance Inflation Factor (VIF)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Martin Alvarez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
