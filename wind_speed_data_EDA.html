@@ -1,0 +1,1332 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Wind Speed Data: EDA &#8212; Parcial Machine Learning 2023-30</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'wind_speed_data_EDA';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Wind Speed Data: Regression Models" href="wind_speed_data_regression.html" />
+    <link rel="prev" title="Parcial Machine Learning 2023-30" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Parcial Machine Learning 2023-30
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Wind Speed Data: EDA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wind_speed_data_regression.html">Wind Speed Data: Regression Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fraud_detection_data_EDA.html">Fraud Detection Data: EDA</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fwind_speed_data_EDA.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/wind_speed_data_EDA.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Wind Speed Data: EDA</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduccion-de-nombres-extensos-de-columnas">Reducción de nombres extensos de columnas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numero-de-observaciones-media-desviacion-minimo-maximo-cuartiles">Número de observaciones, media, desviación, mínimo, máximo, cuartiles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conteo-de-datos-faltantes">conteo de datos faltantes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#histograma-de-la-variable-a-predecir-y-las-variables-explicativas">histograma de la variable a predecir y las variables explicativas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boxplot-de-todas-las-variables-numericas">Boxplot de todas las variables numéricas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlaciones">Correlaciones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot">scatterplot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminando-multicolinealidad-con-variance-inflation-factor-vif">Eliminando multicolinealidad con Variance Inflation Factor (VIF)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="wind-speed-data-eda">
+<h1>Wind Speed Data: EDA<a class="headerlink" href="#wind-speed-data-eda" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">wind_speed_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;wind_speed_data_treino_dv_df_2000_2010.csv&#39;</span><span class="p">)</span>
+
+<span class="n">wind_speed_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HORA (UTC)</th>
+      <th>VENTO, DIREï¿½ï¿½O HORARIA (gr) (ï¿½ (gr))</th>
+      <th>VENTO, VELOCIDADE HORARIA (m/s)</th>
+      <th>UMIDADE REL. MAX. NA HORA ANT. (AUT) (%)</th>
+      <th>UMIDADE REL. MIN. NA HORA ANT. (AUT) (%)</th>
+      <th>TEMPERATURA Mï¿½XIMA NA HORA ANT. (AUT) (ï¿½C)</th>
+      <th>TEMPERATURA Mï¿½NIMA NA HORA ANT. (AUT) (ï¿½C)</th>
+      <th>UMIDADE RELATIVA DO AR, HORARIA (%)</th>
+      <th>PRESSAO ATMOSFERICA AO NIVEL DA ESTACAO, HORARIA (mB)</th>
+      <th>PRECIPITAï¿½ï¿½O TOTAL, HORï¿½RIO (mm)</th>
+      <th>VENTO, RAJADA MAXIMA (m/s)</th>
+      <th>PRESSï¿½O ATMOSFERICA MAX.NA HORA ANT. (AUT) (mB)</th>
+      <th>PRESSï¿½O ATMOSFERICA MIN. NA HORA ANT. (AUT) (mB)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12:00</td>
+      <td>0.809017</td>
+      <td>1.8</td>
+      <td>69.0</td>
+      <td>60.0</td>
+      <td>22.6</td>
+      <td>20.7</td>
+      <td>61.0</td>
+      <td>888.2</td>
+      <td>0.0</td>
+      <td>3.8</td>
+      <td>888.2</td>
+      <td>887.7</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>13:00</td>
+      <td>0.965926</td>
+      <td>2.7</td>
+      <td>62.0</td>
+      <td>55.0</td>
+      <td>24.2</td>
+      <td>22.5</td>
+      <td>55.0</td>
+      <td>888.4</td>
+      <td>0.0</td>
+      <td>4.7</td>
+      <td>888.4</td>
+      <td>888.2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14:00</td>
+      <td>0.891007</td>
+      <td>2.0</td>
+      <td>56.0</td>
+      <td>50.0</td>
+      <td>25.5</td>
+      <td>24.3</td>
+      <td>51.0</td>
+      <td>888.1</td>
+      <td>0.0</td>
+      <td>4.9</td>
+      <td>888.4</td>
+      <td>888.1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>15:00</td>
+      <td>0.848048</td>
+      <td>2.5</td>
+      <td>52.0</td>
+      <td>44.0</td>
+      <td>27.4</td>
+      <td>25.0</td>
+      <td>44.0</td>
+      <td>887.4</td>
+      <td>0.0</td>
+      <td>5.8</td>
+      <td>888.1</td>
+      <td>887.4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16:00</td>
+      <td>0.224951</td>
+      <td>2.4</td>
+      <td>50.0</td>
+      <td>43.0</td>
+      <td>27.1</td>
+      <td>25.5</td>
+      <td>46.0</td>
+      <td>886.5</td>
+      <td>0.0</td>
+      <td>5.8</td>
+      <td>887.4</td>
+      <td>886.5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>El dataset mostrado, contiene información de la velocidad del viento en determinada hora, en conjunto con otras variables descriptivas tal como temperatura y humedad del aire. En ese sentido, el dataset es utilizado en este caso para predecir la velocidad del viento en función de otras variables</p>
+<section id="reduccion-de-nombres-extensos-de-columnas">
+<h2>Reducción de nombres extensos de columnas<a class="headerlink" href="#reduccion-de-nombres-extensos-de-columnas" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">column_names</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;HORA (UTC)&#39;</span><span class="p">:</span> <span class="s1">&#39;Hora (UTC)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;VENTO, DIREï¿½ï¿½O HORARIA (gr) (ï¿½ (gr))&#39;</span><span class="p">:</span> <span class="s1">&#39;Dirección del Viento (grados)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;VENTO, VELOCIDADE HORARIA (m/s)&#39;</span><span class="p">:</span> <span class="s1">&#39;Velocidad del Viento (m/s)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;UMIDADE REL. MAX. NA HORA ANT. (AUT) (%)&#39;</span><span class="p">:</span> <span class="s1">&#39;Humedad Relativa Máxima (AUT) (%)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;UMIDADE REL. MIN. NA HORA ANT. (AUT) (%)&#39;</span><span class="p">:</span> <span class="s1">&#39;Humedad Relativa Mínima (AUT) (%)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;TEMPERATURA Mï¿½XIMA NA HORA ANT. (AUT) (ï¿½C)&#39;</span><span class="p">:</span> <span class="s1">&#39;Temperatura Máxima (AUT) (°C)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;TEMPERATURA Mï¿½NIMA NA HORA ANT. (AUT) (ï¿½C)&#39;</span><span class="p">:</span> <span class="s1">&#39;Temperatura Mínima (AUT) (°C)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;UMIDADE RELATIVA DO AR, HORARIA (%)&#39;</span><span class="p">:</span> <span class="s1">&#39;Humedad Relativa del Aire (%)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PRESSAO ATMOSFERICA AO NIVEL DA ESTACAO, HORARIA (mB)&#39;</span><span class="p">:</span> <span class="s1">&#39;Presión Atmosférica Horaria (mB)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PRECIPITAï¿½ï¿½O TOTAL, HORï¿½RIO (mm)&#39;</span><span class="p">:</span> <span class="s1">&#39;Precipitación Total Horaria (mm)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;VENTO, RAJADA MAXIMA (m/s)&#39;</span><span class="p">:</span> <span class="s1">&#39;Rajada Máxima del Viento (m/s)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PRESSï¿½O ATMOSFERICA MAX.NA HORA ANT. (AUT) (mB)&#39;</span><span class="p">:</span> <span class="s1">&#39;Presión Atmosférica Máxima Anterior (AUT) (mB)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PRESSï¿½O ATMOSFERICA MIN. NA HORA ANT. (AUT) (mB)&#39;</span><span class="p">:</span> <span class="s1">&#39;Presión Atmosférica Mínima Anterior (AUT) (mB)&#39;</span>
+<span class="p">}</span>
+
+<span class="n">wind_speed_data</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">column_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se reduce de esta forma los nombres de las columnas a unos más explícitos y adecuados para el idioma español</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wind_speed_data</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;Hora (UTC)&#39;, &#39;Dirección del Viento (grados)&#39;,
+       &#39;Velocidad del Viento (m/s)&#39;, &#39;Humedad Relativa Máxima (AUT) (%)&#39;,
+       &#39;Humedad Relativa Mínima (AUT) (%)&#39;, &#39;Temperatura Máxima (AUT) (°C)&#39;,
+       &#39;Temperatura Mínima (AUT) (°C)&#39;, &#39;Humedad Relativa del Aire (%)&#39;,
+       &#39;Presión Atmosférica Horaria (mB)&#39;, &#39;Precipitación Total Horaria (mm)&#39;,
+       &#39;Rajada Máxima del Viento (m/s)&#39;,
+       &#39;Presión Atmosférica Máxima Anterior (AUT) (mB)&#39;,
+       &#39;Presión Atmosférica Mínima Anterior (AUT) (mB)&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="numero-de-observaciones-media-desviacion-minimo-maximo-cuartiles">
+<h2>Número de observaciones, media, desviación, mínimo, máximo, cuartiles<a class="headerlink" href="#numero-de-observaciones-media-desviacion-minimo-maximo-cuartiles" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wind_speed_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Dirección del Viento (grados)</th>
+      <th>Velocidad del Viento (m/s)</th>
+      <th>Humedad Relativa Máxima (AUT) (%)</th>
+      <th>Humedad Relativa Mínima (AUT) (%)</th>
+      <th>Temperatura Máxima (AUT) (°C)</th>
+      <th>Temperatura Mínima (AUT) (°C)</th>
+      <th>Humedad Relativa del Aire (%)</th>
+      <th>Presión Atmosférica Horaria (mB)</th>
+      <th>Precipitación Total Horaria (mm)</th>
+      <th>Rajada Máxima del Viento (m/s)</th>
+      <th>Presión Atmosférica Máxima Anterior (AUT) (mB)</th>
+      <th>Presión Atmosférica Mínima Anterior (AUT) (mB)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+      <td>87693.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.405810</td>
+      <td>2.466192</td>
+      <td>69.058465</td>
+      <td>63.176194</td>
+      <td>21.921264</td>
+      <td>20.684570</td>
+      <td>66.146682</td>
+      <td>887.251925</td>
+      <td>0.160907</td>
+      <td>5.161076</td>
+      <td>887.580724</td>
+      <td>886.891093</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.686247</td>
+      <td>1.313968</td>
+      <td>19.640222</td>
+      <td>20.166336</td>
+      <td>3.721386</td>
+      <td>3.513744</td>
+      <td>19.992327</td>
+      <td>4.012404</td>
+      <td>1.307515</td>
+      <td>2.311157</td>
+      <td>3.646750</td>
+      <td>3.564539</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>-1.000000</td>
+      <td>0.000000</td>
+      <td>12.000000</td>
+      <td>10.000000</td>
+      <td>9.200000</td>
+      <td>8.400000</td>
+      <td>10.000000</td>
+      <td>863.400000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>865.300000</td>
+      <td>862.800000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>-0.156434</td>
+      <td>1.500000</td>
+      <td>54.000000</td>
+      <td>48.000000</td>
+      <td>19.200000</td>
+      <td>18.400000</td>
+      <td>51.000000</td>
+      <td>885.300000</td>
+      <td>0.000000</td>
+      <td>3.400000</td>
+      <td>885.600000</td>
+      <td>885.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.788011</td>
+      <td>2.400000</td>
+      <td>72.000000</td>
+      <td>64.000000</td>
+      <td>21.400000</td>
+      <td>20.200000</td>
+      <td>68.000000</td>
+      <td>887.200000</td>
+      <td>0.000000</td>
+      <td>5.000000</td>
+      <td>887.500000</td>
+      <td>886.900000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.970296</td>
+      <td>3.400000</td>
+      <td>87.000000</td>
+      <td>80.000000</td>
+      <td>24.700000</td>
+      <td>23.100000</td>
+      <td>84.000000</td>
+      <td>889.100000</td>
+      <td>0.000000</td>
+      <td>6.800000</td>
+      <td>889.300000</td>
+      <td>888.800000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.000000</td>
+      <td>10.000000</td>
+      <td>100.000000</td>
+      <td>98.000000</td>
+      <td>35.300000</td>
+      <td>34.400000</td>
+      <td>99.000000</td>
+      <td>1023.500000</td>
+      <td>70.800000</td>
+      <td>24.300000</td>
+      <td>913.100000</td>
+      <td>910.900000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Los datos presentados muestran estadísticas relacionadas a cada variable:</p>
+<ul class="simple">
+<li><p>La dirección del viento se expresa en grados, con un valor mínimo de -1 y máximo de 1, lo que indica la variabilidad en la dirección.</p></li>
+<li><p>La velocidad del viento, medida en metros por segundo, tiene un promedio de 2.47 m/s, con una desviación estándar de 1.31 m/s.</p></li>
+<li><p>La humedad relativa máxima y mínima alcanzan valores promedio de alrededor del 69% y 63%, respectivamente.</p></li>
+<li><p>Las temperaturas máxima y mínima promedio son de aproximadamente 21.92 °C y 20.68 °C, respectivamente.</p></li>
+<li><p>La humedad relativa del aire presenta un promedio del 66.15%, con una desviación estándar de 19.99%.</p></li>
+<li><p>La presión atmosférica horaria tiene un promedio de 887.25 mB, con variaciones entre 863.4 mB y 1023.5 mB.</p></li>
+<li><p>La precipitación total horaria tiene un valor promedio de 0.16 mm, con un máximo de 70.8 mm.</p></li>
+<li><p>La rajada máxima del viento alcanza un promedio de 5.16 m/s, con una desviación estándar de 2.31 m/s.</p></li>
+<li><p>Las presiones atmosféricas máxima y mínima anteriores tienen un rango de variación entre 862.8 mB y 913.1 mB.</p></li>
+</ul>
+<section id="conteo-de-datos-faltantes">
+<h3>conteo de datos faltantes<a class="headerlink" href="#conteo-de-datos-faltantes" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wind_speed_data</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hora (UTC)                                        0
+Dirección del Viento (grados)                     0
+Velocidad del Viento (m/s)                        0
+Humedad Relativa Máxima (AUT) (%)                 0
+Humedad Relativa Mínima (AUT) (%)                 0
+Temperatura Máxima (AUT) (°C)                     0
+Temperatura Mínima (AUT) (°C)                     0
+Humedad Relativa del Aire (%)                     0
+Presión Atmosférica Horaria (mB)                  0
+Precipitación Total Horaria (mm)                  0
+Rajada Máxima del Viento (m/s)                    0
+Presión Atmosférica Máxima Anterior (AUT) (mB)    0
+Presión Atmosférica Mínima Anterior (AUT) (mB)    0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se evidencia entonces que no hay datos nulos en ninguna variable, lo cuál indica que el dataset ha sido procesado previamente o que las mediciones fueron tomadas de manera impecable</p>
+</section>
+</section>
+<section id="histograma-de-la-variable-a-predecir-y-las-variables-explicativas">
+<h2>histograma de la variable a predecir y las variables explicativas<a class="headerlink" href="#histograma-de-la-variable-a-predecir-y-las-variables-explicativas" title="Permalink to this heading">#</a></h2>
+<p>tenga en cuenta que:</p>
+<ul class="simple">
+<li><p>la variable a predecir es la velocidad del viento.</p></li>
+<li><p>todas las demás variables son potenciales variables explicativas</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">wind_speed_data</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/af467d86f22cb5007f9fb9369047ec11a54f51155c835f1d9cf05adb24235766.png" src="_images/af467d86f22cb5007f9fb9369047ec11a54f51155c835f1d9cf05adb24235766.png" />
+</div>
+</div>
+<p>Comentarios relevantes sobre la distribución de las variables numéricas:</p>
+<ul class="simple">
+<li><p>Dirección del viento: El histograma de la dirección del viento muestra una distribución relativamente uniforme, con un ligero pico a 180 grados (sur). Esto sugiere que la dirección del viento en el dataset es relativamente variable, sin una dirección única que domine salvo por la que se mencionó previamente.</p></li>
+<li><p>Velocidad del viento: El histograma de la velocidad del viento muestra una distribución sesgada a la derecha, con un pico alrededor de 2 m/s y una larga cola que se extiende a velocidades del viento más altas. Esto sugiere que la mayoría del tiempo, la velocidad del viento es relativamente baja, pero también hay períodos ocasionales de vientos fuertes.</p></li>
+<li><p>Temperatura: Los histogramas de la temperatura máxima y mínima muestran ambas distribuciones normales, con picos alrededor de 20°C. Esto sugiere que la temperatura en el dataset es relativamente cálida, con períodos ocasionales de calor o frío extremo. Pero aún así, no cambia significativamente entre una hora y otra</p></li>
+<li><p>Presión atmosférica: El histograma de la presión atmosférica horaria muestra una distribución normal, con un pico alrededor de 890 mB. Esto está cerca de la presión atmosférica media al nivel del mar de 1013,25 mB, lo que sugiere que las mediciones se tomaron a una elevación relativamente baja.</p></li>
+<li><p>Ráfaga máxima de viento: El histograma de la ráfaga máxima de viento muestra una distribución sesgada a la derecha, con un pico alrededor de 5 m/s y una larga cola que se extiende a velocidades de viento más altas. Esto sugiere que la mayoría del tiempo, las ráfagas de viento son relativamente bajas, pero también hay períodos ocasionales de ráfagas de viento muy fuertes.</p></li>
+<li><p>Presión atmosférica máxima y mínima anterior: Los histogramas de la presión atmosférica máxima y mínima anterior son similares entre sí, y ambos muestran distribuciones normales con picos alrededor de 890 mB. Esto sugiere que la presión atmosférica en el dataset es relativamente estable, con solo grandes cambios ocasionales.</p></li>
+</ul>
+<section id="boxplot-de-todas-las-variables-numericas">
+<h3>Boxplot de todas las variables numéricas<a class="headerlink" href="#boxplot-de-todas-las-variables-numericas" title="Permalink to this heading">#</a></h3>
+<p>Se hace primero el boxplot de todas las variables, sacando las medidas de presión dadp que estas manejan una escala mayor. Se analizarán solas posteriormente</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a boxplot for all numerical variables</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s1">&#39;Presión Atmosférica Máxima Anterior (AUT) (mB)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Presión Atmosférica Mínima Anterior (AUT) (mB)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Presión Atmosférica Horaria (mB)&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Boxplot of Numerical Variables&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e29bb73d7c242ff33d604269bfee49e19268de29aebab1a4550b2ea0b19defb7.png" src="_images/e29bb73d7c242ff33d604269bfee49e19268de29aebab1a4550b2ea0b19defb7.png" />
+</div>
+</div>
+<p>Apreciaciones de la variabilidad en el dataset:</p>
+<ul class="simple">
+<li><p>Velocidad del viento: La mediana de la velocidad del viento es de alrededor de 2 m/s, lo que sugiere que la mayoría del tiempo, la velocidad del viento es relativamente baja. Sin embargo, el diagrama de caja también muestra que hay una variabilidad significativa en la velocidad del viento, con algunos valores atípicos que superan los 10 m/s. Hay ocasiones en las que la velocidad del viento puede ser muy alta.</p></li>
+<li><p>Humedad relativa: La mediana de la humedad relativa es de alrededor del 70%, lo que sugiere que el aire es relativamente húmedo la mayoría del tiempo. Sin embargo, el diagrama de caja también muestra que hay una variabilidad significativa en la humedad relativa, con algunos valores atípicos que caen por debajo del 40% o por encima del 80%. Esto sugiere que hay ocasiones en las que el aire puede ser muy seco o muy húmedo.</p></li>
+<li><p>Temperatura: La mediana de la temperatura es de alrededor de 20°C, lo que sugiere que el clima es relativamente cálido. Sin embargo, el diagrama de caja también muestra que hay una variabilidad significativa en la temperatura, con algunos valores atípicos que caen por debajo de los 10°C o por encima de los 35°C.</p></li>
+<li><p>Precipitación: La mediana de la precipitación es de 0 mm, lo que sugiere que la mayoría del tiempo, no hay precipitación. Sin embargo, hay contadas ocasiones en las que la precipitación puede ser muy alta.</p></li>
+</ul>
+<p>ahora se observa la dispersión solo de las medidas de presión:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a boxplot for all numerical variables</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">wind_speed_data</span><span class="p">[[</span>
+    <span class="s1">&#39;Presión Atmosférica Máxima Anterior (AUT) (mB)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Presión Atmosférica Mínima Anterior (AUT) (mB)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Presión Atmosférica Horaria (mB)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Boxplot of Numerical Variables&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7524471127b7b1b8d24309a5cb0e152c3a1b2a5de3f3ca358f85587318564f80.png" src="_images/7524471127b7b1b8d24309a5cb0e152c3a1b2a5de3f3ca358f85587318564f80.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>El diagrama de caja también muestra que hay una variabilidad relativamente baja en la presión atmosférica, con pocos valores atípicos. La presión atmosférica en el dataset es relativamente estable.</p></li>
+</ul>
+</section>
+<section id="correlaciones">
+<h3>Correlaciones<a class="headerlink" href="#correlaciones" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">correlation_matrix</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Correlation Matrix&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/56bb1410000320c6e216dbfffa5294dc4a58ed68ad5b88e622453820d46bfc2c.png" src="_images/56bb1410000320c6e216dbfffa5294dc4a58ed68ad5b88e622453820d46bfc2c.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>Las variables que están más fuertemente correlacionadas con la velocidad del viento son la rajada del viento y la humedad relativa del aire. Podría concluirse a priori, por ejemplo, que cuando la velocidad del viento aumenta, la humedad relativa tiende a disminuir, y viceversa.</p></li>
+<li><p>Las variables que está menos fuertemente correlacionadas con la velocidad del viento es la precipitación total horaria. Es posible que haya un fuerte viento sin que haya precipitación, o viceversa.</p></li>
+</ul>
+</section>
+<section id="scatterplot">
+<h3>scatterplot<a class="headerlink" href="#scatterplot" title="Permalink to this heading">#</a></h3>
+<p>se realiza el scatterplot de las variables numéricas con mayor correlación a la velocidad del viento</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">wind_speed_data</span><span class="p">[[</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dirección del Viento (grados)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Horaria (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa del Aire (%)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Rajada Máxima del Viento (m/s)&quot;</span>
+    <span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8c849e122d0d977c1493a946de21a3e2cdf050da7b07bcb2284547a7910f6e74.png" src="_images/8c849e122d0d977c1493a946de21a3e2cdf050da7b07bcb2284547a7910f6e74.png" />
+</div>
+</div>
+<p>Dado que el dataset tiene demasiados registros, se evidencian puntos en todo el gráfico de dispersión. A continuación se resaltan las zonas con mayor y menor concentracion para apreciar la dispersión de una mejor manera.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">wind_speed_data</span><span class="p">[[</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Dirección del Viento (grados)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Horaria (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa del Aire (%)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Rajada Máxima del Viento (m/s)&quot;</span>
+    <span class="p">]],</span> <span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;hist&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/f541c7c63325d80a4f20a500d2244d174c13ee6d3770e454e147cd01bb824a8e.png" src="_images/f541c7c63325d80a4f20a500d2244d174c13ee6d3770e454e147cd01bb824a8e.png" />
+</div>
+</div>
+<p>Entonces, se evidencia por ejemplo que la variable rajada máxima, predice casi que de manera lineal la velocidad del viento, no tan así con las otras variables, sin embargo al momento de modelar, se determinará cuáles son útiles y cuáles no</p>
+</section>
+</section>
+<section id="eliminando-multicolinealidad-con-variance-inflation-factor-vif">
+<h2>Eliminando multicolinealidad con Variance Inflation Factor (VIF)<a class="headerlink" href="#eliminando-multicolinealidad-con-variance-inflation-factor-vif" title="Permalink to this heading">#</a></h2>
+<p>Se realiza reducción de dimensionalidad por medio de eliminación de columnas altamente correlacionadas usando Variance Inflation Factor (VIF). Para esto se emplea la librería variance_inflation_factor().</p>
+<p>Recordemos que:</p>
+<ul class="simple">
+<li><p>Un VIF ≥ 5 indica alta multicolinealidad entre la correspondiente variable independiente y las demás variables.</p></li>
+<li><p>Recomendación: Eliminar una columna a la vez. Aquella con el máximo VIF ≥ 5. Luego, para el nuevo dataframe, calcular nuevamente VIF e identificar nuevas columnas con VIF ≥ 5 máximo, y así sucesivamente hasta obtener solo valores de VIF &lt; 5.</p></li>
+<li><p>Según corresponda, variables categóricas deben previamente codificarse usando por ejemplo OneHotEncoder().</p></li>
+</ul>
+<p>step 1:</p>
+<p>En este paso se quita la variable de la hora y la variable dependiente para verificar el variance_inflation_factor.</p>
+<p>Adicionalmente se retira la variable de precipitación, ya que esta no aporta varianza significativa al dataset y además se comprobó en el exploratorio que no explica de ninguna manera la velocidad del viento.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.outliers_influence</span> <span class="kn">import</span> <span class="n">variance_inflation_factor</span>
+
+<span class="c1"># se quita la variable de la hora y la variable dependiente para verificar el variance_inflation_factor</span>
+<span class="n">predictive_variables</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precipitación Total Horaria (mm)&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_variables</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         Variable            VIF
+0                   Dirección del Viento (grados)       1.714619
+1               Humedad Relativa Máxima (AUT) (%)    1027.260514
+2               Humedad Relativa Mínima (AUT) (%)     868.656360
+3                   Temperatura Máxima (AUT) (°C)    2385.341209
+4                   Temperatura Mínima (AUT) (°C)    1994.193860
+5                   Humedad Relativa del Aire (%)     578.778727
+6                Presión Atmosférica Horaria (mB)  239543.952335
+7                  Rajada Máxima del Viento (m/s)       7.292113
+8  Presión Atmosférica Máxima Anterior (AUT) (mB)  942773.725851
+9  Presión Atmosférica Mínima Anterior (AUT) (mB)  964504.355544
+</pre></div>
+</div>
+</div>
+</div>
+<p>step 2:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictive_variables</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precipitación Total Horaria (mm)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Mínima Anterior (AUT) (mB)&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_variables</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         Variable            VIF
+0                   Dirección del Viento (grados)       1.714581
+1               Humedad Relativa Máxima (AUT) (%)    1027.197096
+2               Humedad Relativa Mínima (AUT) (%)     867.958995
+3                   Temperatura Máxima (AUT) (°C)    2356.378873
+4                   Temperatura Mínima (AUT) (°C)    1971.814345
+5                   Humedad Relativa del Aire (%)     578.563060
+6                Presión Atmosférica Horaria (mB)  221568.810547
+7                  Rajada Máxima del Viento (m/s)       7.283123
+8  Presión Atmosférica Máxima Anterior (AUT) (mB)  222220.148467
+</pre></div>
+</div>
+</div>
+</div>
+<p>step 3:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictive_variables</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precipitación Total Horaria (mm)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Mínima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Máxima Anterior (AUT) (mB)&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_variables</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            Variable          VIF
+0      Dirección del Viento (grados)     1.714458
+1  Humedad Relativa Máxima (AUT) (%)  1027.196759
+2  Humedad Relativa Mínima (AUT) (%)   867.882706
+3      Temperatura Máxima (AUT) (°C)  2353.807880
+4      Temperatura Mínima (AUT) (°C)  1971.095601
+5      Humedad Relativa del Aire (%)   578.525551
+6   Presión Atmosférica Horaria (mB)   161.461302
+7     Rajada Máxima del Viento (m/s)     7.278441
+</pre></div>
+</div>
+</div>
+</div>
+<p>step 4:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictive_variables</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precipitación Total Horaria (mm)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Mínima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Máxima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Temperatura Máxima (AUT) (°C)&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_variables</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            Variable         VIF
+0      Dirección del Viento (grados)    1.697671
+1  Humedad Relativa Máxima (AUT) (%)  471.299209
+2  Humedad Relativa Mínima (AUT) (%)  366.285572
+3      Temperatura Mínima (AUT) (°C)   65.560108
+4      Humedad Relativa del Aire (%)  576.593547
+5   Presión Atmosférica Horaria (mB)  140.499072
+6     Rajada Máxima del Viento (m/s)    7.189978
+</pre></div>
+</div>
+</div>
+</div>
+<p>step 5:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictive_variables</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precipitación Total Horaria (mm)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Mínima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Máxima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Temperatura Máxima (AUT) (°C)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa del Aire (%)&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_variables</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            Variable         VIF
+0      Dirección del Viento (grados)    1.679825
+1  Humedad Relativa Máxima (AUT) (%)  304.394037
+2  Humedad Relativa Mínima (AUT) (%)  248.400731
+3      Temperatura Mínima (AUT) (°C)   65.410392
+4   Presión Atmosférica Horaria (mB)  140.020889
+5     Rajada Máxima del Viento (m/s)    7.189099
+</pre></div>
+</div>
+</div>
+</div>
+<p>step 6:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictive_variables</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precipitación Total Horaria (mm)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Mínima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Máxima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Temperatura Máxima (AUT) (°C)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa del Aire (%)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa Máxima (AUT) (%)&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_variables</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            Variable         VIF
+0      Dirección del Viento (grados)    1.627305
+1  Humedad Relativa Mínima (AUT) (%)   21.103437
+2      Temperatura Mínima (AUT) (°C)   65.014149
+3   Presión Atmosférica Horaria (mB)  131.875734
+4     Rajada Máxima del Viento (m/s)    7.079493
+</pre></div>
+</div>
+</div>
+</div>
+<p>step 7:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictive_variables</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precipitación Total Horaria (mm)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Mínima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Máxima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Temperatura Máxima (AUT) (°C)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa del Aire (%)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa Máxima (AUT) (%)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Horaria (mB)&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_variables</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            Variable        VIF
+0      Dirección del Viento (grados)   1.398797
+1  Humedad Relativa Mínima (AUT) (%)   5.749193
+2      Temperatura Mínima (AUT) (°C)  12.294688
+3     Rajada Máxima del Viento (m/s)   6.996362
+</pre></div>
+</div>
+</div>
+</div>
+<p>step 8:</p>
+<p>después de eliminar variables iterativamente, se llegó a este conjunto de variables que deacuerdo al variance inflation factor no presentan un VIF mayor que 5, por lo cuál no hay multicolinealidad presente</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictive_variables</span> <span class="o">=</span> <span class="n">wind_speed_data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+    <span class="s2">&quot;Hora (UTC)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Velocidad del Viento (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Precipitación Total Horaria (mm)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Mínima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Máxima Anterior (AUT) (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Temperatura Máxima (AUT) (°C)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa del Aire (%)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Humedad Relativa Máxima (AUT) (%)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Presión Atmosférica Horaria (mB)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Temperatura Mínima (AUT) (°C)&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_variables</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictive_variables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="c1"># Display the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vif_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                            Variable       VIF
+0      Dirección del Viento (grados)  1.374806
+1  Humedad Relativa Mínima (AUT) (%)  3.182363
+2     Rajada Máxima del Viento (m/s)  3.644319
+</pre></div>
+</div>
+</div>
+</div>
+<p>Con lo cuál, en el siguiente apartado se iniciará la etapa de modelado de datos con estas tres variables. Asegurando que no hay multicolinealidad.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Parcial Machine Learning 2023-30</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="wind_speed_data_regression.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Wind Speed Data: Regression Models</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduccion-de-nombres-extensos-de-columnas">Reducción de nombres extensos de columnas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numero-de-observaciones-media-desviacion-minimo-maximo-cuartiles">Número de observaciones, media, desviación, mínimo, máximo, cuartiles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conteo-de-datos-faltantes">conteo de datos faltantes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#histograma-de-la-variable-a-predecir-y-las-variables-explicativas">histograma de la variable a predecir y las variables explicativas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boxplot-de-todas-las-variables-numericas">Boxplot de todas las variables numéricas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlaciones">Correlaciones</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot">scatterplot</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminando-multicolinealidad-con-variance-inflation-factor-vif">Eliminando multicolinealidad con Variance Inflation Factor (VIF)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Martin Alvarez
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
